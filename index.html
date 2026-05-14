@@ -42,7 +42,7 @@ body{
     font-size:32px;
     color:#ff4f7b;
     line-height:1.8;
-    min-height:140px;
+    min-height:150px;
     animation:fade 0.5s ease;
 }
 
@@ -110,6 +110,7 @@ button:hover{
 <body>
 
 <div class="container">
+
     <div class="card">
 
         <div class="message" id="message">
@@ -117,18 +118,42 @@ button:hover{
         </div>
 
         <div class="buttons" id="buttons">
+
             <button class="yesBtn" onclick="nextStep()">
-                Start ❤️
+                Start❤️
             </button>
+
         </div>
 
     </div>
+
 </div>
 
 <script>
 
 let step = 0;
 let noSize = 1;
+let slapCount = 0;
+
+const ouchMessages = [
+
+"Ouchhh😭",
+"Aaaa😭",
+"That hurt😭",
+"Pleaseee😭🙏🏻",
+"Babyyy stop😭",
+"Ouchhh again😭",
+"I deserve it😭",
+"Sorryyy😭",
+"Please forgive me😭🙏🏻",
+"My cheeks😭",
+"Ouchhh babyyy😭",
+"I am trying😭",
+"Don’t be this angry😭",
+"Ouchhh😭❤️",
+"I still love U😭❤️"
+
+];
 
 const scenes = [
 
@@ -142,8 +167,8 @@ buttons:[
 {
 msg:"I know I hurt U...and I am really really sorry😭🙏🏻",
 buttons:[
-{text:"Its Okayy 😊",action:"next"},
-{text:"Still Angry😡",action:"shrink"}
+{text:"Its Okayy😊",action:"next"},
+{text:"Still Angry😭",action:"shrink"}
 ],
 shrinkMsg:"Please don’t stay angry😭❤️"
 },
@@ -151,7 +176,7 @@ shrinkMsg:"Please don’t stay angry😭❤️"
 {
 msg:"U mean so much to me...more than U even know❤️",
 buttons:[
-{text:"Aww 😊",action:"next"}
+{text:"Aww😊",action:"next"}
 ]
 },
 
@@ -167,10 +192,9 @@ shrinkMsg:"But I really miss U so much😭❤️"
 {
 msg:"Can we fix this together...?❤️",
 buttons:[
-{text:"Okayy ❤️",action:"next"},
-{text:"Nahh 😭",action:"shrink"}
-],
-shrinkMsg:"Pleaseee...just one more chance😭🙏🏻"
+{text:"Okayy❤️",action:"next"},
+{text:"Nahh😭",action:"slapMode"}
+]
 },
 
 {
@@ -249,9 +273,11 @@ function nextStep(){
         button.innerHTML = btn.text;
 
         if(btn.action === "shrink"){
+
             button.className = "noBtn";
 
             button.onclick = ()=>{
+
                 noSize -= 0.15;
 
                 if(noSize < 0.35){
@@ -262,30 +288,135 @@ function nextStep(){
 
                 document.getElementById("message").innerHTML =
                 scene.shrinkMsg;
+
             };
+
+        }
+
+        else if(btn.action === "slapMode"){
+
+            button.className = "noBtn";
+
+            button.onclick = ()=>{
+
+                slapMode();
+
+            };
+
         }
 
         else if(btn.action === "restart"){
+
             button.className = "yesBtn";
 
             button.onclick = ()=>{
+
                 step = 0;
+
                 nextStep();
+
             };
+
         }
 
         else{
+
             button.className = "yesBtn";
 
             button.onclick = ()=>{
+
                 step++;
+
                 nextStep();
+
             };
+
         }
 
         buttonsDiv.appendChild(button);
 
     });
+
+}
+
+function slapMode(){
+
+    slapCount = 0;
+
+    const buttonsDiv = document.getElementById("buttons");
+
+    document.getElementById("message").innerHTML =
+    "Then keep slaping me😭";
+
+    buttonsDiv.innerHTML = `
+
+    <button class="noBtn" id="slapBtn">
+        Slap Me😭
+    </button>
+
+    `;
+
+    const slapBtn = document.getElementById("slapBtn");
+
+    slapBtn.onclick = ()=>{
+
+        slapCount++;
+
+        document.getElementById("message").innerHTML =
+        ouchMessages[slapCount % ouchMessages.length];
+
+        slapBtn.style.transform =
+        `scale(${1 - slapCount * 0.02})`;
+
+        if(slapCount >= 20){
+
+            document.getElementById("message").innerHTML =
+            "Babyyy...happyy now...?❤️";
+
+            buttonsDiv.innerHTML = `
+
+            <button class="yesBtn" id="happyYes">
+                Yess😊
+            </button>
+
+            <button class="noBtn" id="happyNo">
+                Noo😭
+            </button>
+
+            `;
+
+            document.getElementById("happyYes").onclick = ()=>{
+
+                document.getElementById("message").innerHTML =
+                "Lets patchup babyy❤️";
+
+                buttonsDiv.innerHTML = `
+
+                <button class="yesBtn" id="lalaBtn">
+                    Lala❤️
+                </button>
+
+                `;
+
+                document.getElementById("lalaBtn").onclick = ()=>{
+
+                    step++;
+
+                    nextStep();
+
+                };
+
+            };
+
+            document.getElementById("happyNo").onclick = ()=>{
+
+                slapMode();
+
+            };
+
+        }
+
+    };
 
 }
 
@@ -306,7 +437,9 @@ function createHeart(){
     document.body.appendChild(heart);
 
     setTimeout(()=>{
+
         heart.remove();
+
     },6000);
 
 }
