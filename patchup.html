@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patchup Babyy ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ffd6e0,#ff9eb5);
+    overflow:hidden;
+}
+
+.container{
+    width:90%;
+    max-width:750px;
+}
+
+.card{
+    background:white;
+    padding:50px 30px;
+    border-radius:30px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+    position:relative;
+    overflow:hidden;
+}
+
+.message{
+    font-size:32px;
+    color:#ff4f7b;
+    line-height:1.8;
+    min-height:140px;
+    animation:fade 0.5s ease;
+}
+
+.buttons{
+    margin-top:35px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    padding:16px 35px;
+    border-radius:50px;
+    cursor:pointer;
+    font-size:20px;
+    transition:0.3s;
+    color:white;
+}
+
+.yesBtn{
+    background:#ff4f7b;
+}
+
+.noBtn{
+    background:#ff8fab;
+}
+
+button:hover{
+    transform:scale(1.08);
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.heart{
+    position:absolute;
+    font-size:25px;
+    color:#ff4f7b;
+    animation:float 5s linear infinite;
+    opacity:0.7;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(100vh) scale(0);
+    }
+    100%{
+        transform:translateY(-120vh) scale(1.5);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="message" id="message">
+            Click Start 😊
+        </div>
+
+        <div class="buttons" id="buttons">
+            <button class="yesBtn" onclick="nextStep()">
+                Start ❤️
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+let step = 0;
+let noSize = 1;
+
+const scenes = [
+
+{
+msg:"Heyy...😭❤️",
+buttons:[
+{text:"Next😊",action:"next"}
+]
+},
+
+{
+msg:"I know I hurt U...and I am really really sorry😭🙏🏻",
+buttons:[
+{text:"Its Okayy 😊",action:"next"},
+{text:"Still Angry😡",action:"shrink"}
+],
+shrinkMsg:"Please don’t stay angry😭❤️"
+},
+
+{
+msg:"U mean so much to me...more than U even know❤️",
+buttons:[
+{text:"Aww 😊",action:"next"}
+]
+},
+
+{
+msg:"I miss U...our talks...our laughs...our silly moments❤️",
+buttons:[
+{text:"Me Too❤️",action:"next"},
+{text:"Nahh😭",action:"shrink"}
+],
+shrinkMsg:"But I really miss U so much😭❤️"
+},
+
+{
+msg:"Can we fix this together...?❤️",
+buttons:[
+{text:"Okayy ❤️",action:"next"},
+{text:"Nahh 😭",action:"shrink"}
+],
+shrinkMsg:"Pleaseee...just one more chance😭🙏🏻"
+},
+
+{
+msg:"I promise I will listen more...understand U more...and never ignore Ur feelings again❤️",
+buttons:[
+{text:"Promise...?😊",action:"next"}
+]
+},
+
+{
+msg:"Lets patchup babyy❤️",
+buttons:[
+{text:"Lala❤️",action:"next"},
+{text:"Never😭",action:"shrink"}
+],
+shrinkMsg:"Please babyyy😭🙏🏻❤️"
+},
+
+{
+msg:"I still choose U...again and again...every single day😊❤️",
+buttons:[
+{text:"MY BABY😊",action:"next"}
+]
+},
+
+{
+msg:"No matter what happens...my heart always finds U❤️",
+buttons:[
+{text:"Awww❤️",action:"next"}
+]
+},
+
+{
+msg:"l love youuu❤️",
+buttons:[
+{text:"I Lovee Youu Too❤️",action:"next"}
+]
+},
+
+{
+msg:"umaaaaaaaaaaaaaaa💋",
+buttons:[
+{text:"ummmaaaaaaaaa💋",action:"next"}
+]
+},
+
+{
+msg:"Forever Together❤️🌹😊",
+buttons:[
+{text:"Again❤️",action:"restart"}
+]
+}
+
+];
+
+function nextStep(){
+
+    if(step >= scenes.length){
+        step = 0;
+    }
+
+    const scene = scenes[step];
+
+    document.getElementById("message").innerHTML = scene.msg;
+
+    const buttonsDiv = document.getElementById("buttons");
+
+    buttonsDiv.innerHTML = "";
+
+    noSize = 1;
+
+    scene.buttons.forEach(btn=>{
+
+        const button = document.createElement("button");
+
+        button.innerHTML = btn.text;
+
+        if(btn.action === "shrink"){
+            button.className = "noBtn";
+
+            button.onclick = ()=>{
+                noSize -= 0.15;
+
+                if(noSize < 0.35){
+                    noSize = 0.35;
+                }
+
+                button.style.transform = `scale(${noSize})`;
+
+                document.getElementById("message").innerHTML =
+                scene.shrinkMsg;
+            };
+        }
+
+        else if(btn.action === "restart"){
+            button.className = "yesBtn";
+
+            button.onclick = ()=>{
+                step = 0;
+                nextStep();
+            };
+        }
+
+        else{
+            button.className = "yesBtn";
+
+            button.onclick = ()=>{
+                step++;
+                nextStep();
+            };
+        }
+
+        buttonsDiv.appendChild(button);
+
+    });
+
+}
+
+function createHeart(){
+
+    const heart = document.createElement("div");
+
+    heart.classList.add("heart");
+
+    heart.innerHTML = "❤️";
+
+    heart.style.left = Math.random()*100 + "vw";
+
+    heart.style.fontSize = (Math.random()*20 + 15) + "px";
+
+    heart.style.animationDuration = (Math.random()*3 + 3) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{
+        heart.remove();
+    },6000);
+
+}
+
+setInterval(createHeart,300);
+
+</script>
+
+</body>
+</html>
